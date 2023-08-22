@@ -1,48 +1,59 @@
 import bpy
-import math
+import random
 
 def clean_scene():
     for obj in bpy.data.objects:
         bpy.data.objects.remove(obj)
 
+    for texture in bpy.data.objects:
+        bpy.data.objects.remove(texture)    
+
 def create_cube():
-    bpy.ops.mesh.primitive_cube_add(size=1)
+    bpy.ops.mesh.primitive_cube_add()
     return bpy.context.object
 
 def modifier_apply(apply,name):
   if apply:
         bpy.ops.object.modifier_apply(modifier=name)
 
-def subdivide(obj, name, levels, apply=True):
-    subdiv_mod = obj.modifiers.new(type='SUBSURF', name=name)
-    subdiv_mod.levels = levels
-    modifier_apply(apply, subdiv_mod.name)
+def subdiv(obj, name, levels, apply=True):
+    modifier = obj.modifiers.new(type="SUBSURF", name=name)
+    modifier.levels = levels
+    modifier_apply(apply, modifier.name)
 
-def spherify(obj, name, apply=True):
-    cast_mod = obj.modifiers.new(type='CAST', name=name)
-    modifier_apply(apply, cast_mod.name)
+def create_voronoi(intensity, scale):
+    texture = bpy.data.textures.new("voronoi", type="VORONOI")
+    texture.distance_metric = "DISTANCE_SQUARED"
+    texture.noise_intensity = intensity 
+    texture.noise_scale = scale
 
-def decimate(obj, name, angle, apply=True):
-    decimate_mod = obj.modifiers.new(type='DECIMATE', name=name)
-    decimate_mod.decimate_type="DISSOLVE"
-    decimate_mod.angle_limit = math.radians(angle)
-    decimate_mod.use_dissolve_boundaries = True
-    modifier_apply(apply, decimate_mod.name)
+    return texture
+    
+def displace(obj, name, apply=True):
+    modifier = obj.modifiers.new(type="DISPLACE", name=name)
+    texture = create_voronoi(
+        intensity = random.uniform(0.1, 0.3),
+        scale = random.uniform(0.75, 1)
+    )
+    modifier.texture = texture
+    modifier_apply(apply, modifier.name)
+
+    # print(dir(modifier))
+
+def decimate(obj, name, ratio, apply=True):
+    modifier = obj.modifiers.new(type="DECIMATE", name=name)
+    modifier.ratio = ratio
+    modifier_apply(apply, modifier.name)
+
 
 def generate_rock():
-    # create a cube
     cube = create_cube()
-    
-    # Subdivide  
-    subdivide(cube,"subdiv_cube", 5, True)
-   
-    # Spherify
-    spherify(cube, "cast_cube", True) 
-
-    # Decimate
-    decimate(cube, "decimate_cube", 25, True)
-    
+    subdiv(cube, "subdivide", levels=5)
+    displace(cube, "displace")
+    decimate(cube, "decimate", ratio=0.2)
+  
+     
 clean_scene()
-generate_rock()   
+generate_rock()  
 
  

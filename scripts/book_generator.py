@@ -5,11 +5,14 @@ def clean_scene():
     for obj in bpy.data.objects:
         bpy.data.objects.remove(obj)
 
+    for mat in bpy.data.objects:
+        bpy.data.materials.remove(mat)
+
 def create_cube(x_size, y_size, z_size):
     bpy.ops.mesh.primitive_cube_add(size=1)
     
     resize(x_size, y_size, z_size)
-    align_z(z_size)
+    align(x_size, y_size, z_size)
 
     return bpy.context.active_object 
 
@@ -31,20 +34,20 @@ def get_context_override():
 def resize(x, y, z):
     bpy.ops.transform.resize(value=(x, y, z))
 
-def align_z(height):
-    bpy.ops.transform.translate(value=(0, 0, height*0.5))
+def align(x, y, z):
+    bpy.ops.transform.translate(value=(x*0.5,y*0.5,z*0.5))
 
 
 def loopcut(number_cuts, edge_index, offset):
     context_override = get_context_override()
     bpy.ops.mesh.loopcut_slide(context_override,
         MESH_OT_loopcut={
-        "number_cuts":number_cuts,
-        "smoothness":0,
-        "falloff":'INVERSE_SQUARE',
-        "object_index":0,
-        "edge_index": edge_index,
-        "mesh_select_mode_init":(False,True,False)
+            "number_cuts":number_cuts,
+            "smoothness":0,
+            "falloff":'INVERSE_SQUARE',
+            "object_index":0,
+            "edge_index": edge_index,
+            "mesh_select_mode_init":(False,True,False)
         },
 
         TRANSFORM_OT_edge_slide={
@@ -91,28 +94,15 @@ def get_faces(book):
     update_mesh(book)
     for face in book.data.polygons:
         face_normal = face.normal
-        face_area = face.area
          
         if face_normal[2] == 1: 
-            if top_face == None:
-                        top_face = face
-            else:
-                if top_face.area < face.area:
-                    top_face = face
+            top_face = face
 
         if face_normal[2] == -1: 
-            if bottom_face == None:
-                bottom_face = face
-            else:
-                if bottom_face.area < face.area:
-                    bottom_face = face
-
+            bottom_face = face
+          
         if face_normal[1] == -1: 
-            if front_face == None:
-                front_face = face
-            else:
-                if front_face.area < face.area:
-                    front_face = face
+            front_face = face        
         
     return top_face, bottom_face, front_face
 
@@ -143,14 +133,16 @@ def extrude(amount):
             "use_accurate":False,
         }
     )
-    
-def create_book():
-    book = create_cube(
-        random.uniform(0.15, 0.3),
-        random.uniform(0.7, 0.9),
-        random.uniform(1.0, 1.2),
-    )
-   
+
+def create_material(name, color):
+    material = bpy.data.materials.new(name)
+    material.diffuse_color = color
+
+    return material
+
+def create_single_book(x_size, y_size, z_size):
+    book = create_cube(x_size, y_size, z_size)
+        
     book_edge_loops()
 
     top_face, bottom_face, front_face = get_faces(book)
@@ -161,13 +153,33 @@ def create_book():
     )
 
     extrude(random.uniform(-0.025, -0.05))
+    
+    cover_material = create_material("cover_material", (
+        random.uniform(0,1), #R
+        random.uniform(0,1), #G
+        random.uniform(0,1), #B
+        1 #B
+    ))
+    book.data.materials.append(cover_material)
+
+    paper_material = create_material("paper_material", (0.9,0.9,0.9,1))
+    book.data.materials.append(paper_material)
+    bpy.context.object.active_material_index = 1
+    bpy.ops.object.material_slot_assign()
+                           
     bpy.ops.object.mode_set(mode="OBJECT")
 
-clean_scene()
-create_book()
+def create_books(amt_books):
+    x_pos = 0
+    for i in range (amt_books):
+        x_size = random.uniform(0.15, 0.3)
+        y_size = random.uniform(0.7, 0.9)
+        z_size = random.uniform(1.0, 1.2)
+    
+        create_single_book(x_size, y_size, z_size)
+
+        bpy.ops.transform.translate(value=(x_pos,0,0))
+        x_pos += x_size
  
-
-
-
-
-
+clean_scene()
+create_books(15)

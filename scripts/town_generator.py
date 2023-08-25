@@ -15,7 +15,7 @@ collection = bpy.data.collections["Collection"]
 # put path in config.json (in same folder as script) in this format
 # {"BLENDER_MODEL_PATH": "/path/folder/blenderFileName.blend"}
   
-with open('config.json', 'r') as f:
+with open('config/config.json', 'r') as f:
     config = json.load(f)
 
 tree_path1 = config['TREE_PATH1']

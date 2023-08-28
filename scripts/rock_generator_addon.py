@@ -3,7 +3,7 @@ from bpy.props import *
 import random
 
 class RockGenerator(bpy.types.Panel):
-    #creates panel on sidebar
+    # Creates panel on sidebar
     bl_label = 'RockGenerator'
     bl_idname = 'OBJECT_PT_RockGenerator'
     bl_space_type = 'VIEW_3D'
@@ -13,16 +13,19 @@ class RockGenerator(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         obj = context.object
-        row = layout.row()
-        row.operator(RockGeneratorOperator.bl_idname)
-
+        
+        # Create an operator with settings UI
+        col = layout.column(align=True)
+        col.operator_context = 'INVOKE_DEFAULT'
+        col.operator(RockGeneratorOperator.bl_idname)
+        
 class RockGeneratorOperator(bpy.types.Operator):
-    '''Generates random rock''' #type tool tip here
+    '''Generates random rock''' # Type tool tip here
     bl_label = 'Generate Rock'
     bl_idname = 'rock.creation_operator'
     bl_options = {"REGISTER", "UNDO"}
 
-     #create properties
+    # Create properties
     noise_scale : FloatProperty(
         name = "Noise",
         description = "The scale of the noise",
@@ -54,9 +57,15 @@ class RockGeneratorOperator(bpy.types.Operator):
         min = 0.1, 
         max = 1.0
     )
+    
+    clear_previous_rock : BoolProperty(
+        name = "Clear previous rocks?",
+        description = "Clears the scene before generating new rock",
+        default = True
+    )
 
     def execute(self, context):
-        #insert script here
+        # Insert script here
         def clean_scene():
             for obj in bpy.data.objects:
                 bpy.data.objects.remove(obj)
@@ -68,7 +77,7 @@ class RockGeneratorOperator(bpy.types.Operator):
             bpy.ops.mesh.primitive_cube_add()
             return bpy.context.object
 
-        def modifier_apply(apply,name):
+        def modifier_apply(apply, name):
             if apply:
                 bpy.ops.object.modifier_apply(modifier=name)
 
@@ -94,13 +103,10 @@ class RockGeneratorOperator(bpy.types.Operator):
             modifier.texture = texture
             modifier_apply(apply, modifier.name)
 
-            # print(dir(modifier))
-
         def decimate(obj, name, apply=True):
             modifier = obj.modifiers.new(type="DECIMATE", name=name)
             modifier.ratio = self.decimate_ratio
             modifier_apply(apply, modifier.name)
-
 
         def generate_rock():
             cube = create_cube()
@@ -108,11 +114,17 @@ class RockGeneratorOperator(bpy.types.Operator):
             displace(cube, "displace")
             decimate(cube, "decimate")
              
-        clean_scene()
+        if self.clear_previous_rock:
+            clean_scene()
+            
         generate_rock()    
 
         return {'FINISHED'}
     
+    def invoke(self, context, event):
+        wm = context.window_manager
+        return wm.invoke_props_dialog(self)
+
 def menu_func(self, context):
     self.layout.operator(RockGeneratorOperator.bl_idname, text=RockGeneratorOperator.bl_label)
 
@@ -127,4 +139,4 @@ def unregister():
     bpy.types.VIEW3D_MT_object.remove(menu_func)
 
 if __name__== "__main__":
-     register()
+    register()

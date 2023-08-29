@@ -1,6 +1,17 @@
+bl_info = {
+    "name": "Fix flipped Normals",
+    "author": "Su Zefeng",
+    "version": (1, 0),
+    "blender": (2, 80, 0),
+    "location": "View3D > N",
+    "description": "Fix flipped Normals",
+    "warning": "",
+    "doc_url": "",
+    "category": "",
+}
+
 import bpy
  
-
 class FixNormal(bpy.types.Panel):
     #creates panel on sidebar
     bl_label = 'Fix flipped Normals'

@@ -38,7 +38,7 @@ class TerrainGeneratorOperator(bpy.types.Operator):
     #create properties
 
     size_level : IntProperty(
-        name = "Subdivide level",
+        name = "Terrain Subdivision",
         description = "Subdivision level of Terrain",
         default= 20,
         min = 10, 

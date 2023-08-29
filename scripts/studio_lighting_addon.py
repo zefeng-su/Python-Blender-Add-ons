@@ -1,3 +1,15 @@
+bl_info = {
+    "name": "Studio Lighting",
+    "author": "Su Zefeng",
+    "version": (1, 0),
+    "blender": (2, 80, 0),
+    "location": "View3D > N",
+    "description": "Create 2 pt lighting template",
+    "warning": "",
+    "doc_url": "",
+    "category": "",
+}
+
 import bpy
 import math
 
@@ -7,7 +19,7 @@ class StudioLighting(bpy.types.Panel):
     bl_idname = 'OBJECT_PT_StudioLighting'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = 'Quick Studio'
+    bl_category = 'Studio Lighting'
 
     def draw(self, context):
         layout = self.layout

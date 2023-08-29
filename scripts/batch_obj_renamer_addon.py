@@ -16,7 +16,7 @@ from bpy.props import *
 class PanelClass(bpy.types.Panel):
     #creates panel on sidebar
     bl_label = 'Batch Object Renamer'
-    bl_idname = 'OBJECT_PT_StudioLighting'
+    bl_idname = 'OBJECT_PT_BatchRename'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = 'Batch Object Renamer'

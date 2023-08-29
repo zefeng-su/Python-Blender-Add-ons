@@ -32,7 +32,7 @@ class TerrainGenerator(bpy.types.Panel):
 class TerrainGeneratorOperator(bpy.types.Operator):
     '''Generates random Terrain''' #type tool tip here
     bl_label = 'Generate Terrain'
-    bl_idname = 'rock.creation_operator'
+    bl_idname = 'terrain.creation_operator'
     bl_options = {"REGISTER", "UNDO"}
 
     #create properties

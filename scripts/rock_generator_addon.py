@@ -12,8 +12,7 @@ bl_info = {
 
 import bpy
 from bpy.props import *
-import random
-
+ 
 class RockGenerator(bpy.types.Panel):
     # Creates panel on sidebar
     bl_label = 'RockGenerator'

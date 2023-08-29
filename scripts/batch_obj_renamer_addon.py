@@ -33,9 +33,9 @@ class OperatorClass(bpy.types.Operator):
     bl_idname = 'batch_rename.creation_operator'
     
      # Add properties for prefix, name, and suffix
-    prefix: StringProperty(name="Prefix", default="Prefix")
+    prefix: StringProperty(name="Prefix_", default="Prefix")
     name: StringProperty(name="Name", default="Name")
-    suffix: StringProperty(name="Suffix", default="Suffix")
+    suffix: StringProperty(name="_Suffix", default="Suffix")
 
     def execute(self, context):
         #insert script here

@@ -38,14 +38,6 @@ class BookGeneratorOperator(bpy.types.Operator):
     bl_options = {"REGISTER", "UNDO"}
 
     # Create properties
-    noise_scale : FloatProperty(
-        name = "Noise",
-        description = "The scale of the noise",
-        default= 0.75,
-        min = 0.75, 
-        max = 1.0
-    )
-
     amt_books : IntProperty(
         name = "Number of books",
         description = "Number of books to generate",

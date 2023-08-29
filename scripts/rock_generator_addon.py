@@ -1,3 +1,15 @@
+bl_info = {
+    "name": "Rock Generator",
+    "author": "Su Zefeng",
+    "version": (1, 0),
+    "blender": (2, 80, 0),
+    "location": "View3D > N",
+    "description": "Generates random rock",
+    "warning": "",
+    "doc_url": "",
+    "category": "",
+}
+
 import bpy
 from bpy.props import *
 import random

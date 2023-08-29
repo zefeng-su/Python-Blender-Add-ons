@@ -1,3 +1,15 @@
+bl_info = {
+    "name": "Terrain Generator",
+    "author": "Su Zefeng",
+    "version": (1, 0),
+    "blender": (2, 80, 0),
+    "location": "View3D > N",
+    "description": "Generates random Terrain",
+    "warning": "",
+    "doc_url": "",
+    "category": "",
+}
+
 import bpy
 from bpy.props import *
 #pip install numpy if using external IDE, else it's included in blender script editor

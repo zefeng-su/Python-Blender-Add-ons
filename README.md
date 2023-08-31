@@ -51,5 +51,6 @@ Demo: https://youtu.be/JK1rA9e8_UQ
 
 ## town_generator_addon.py
 Generates trees and houses on top of a terrain. User can tweak various parameters such as number of trees/houses, their placement density, etc. </br>
+3D models not included. Download free models online from resources such as TurboSquid and Sketchfab. Refer to example_JSON.json in this repository on how to write your config.json to list the path location of the models to generate. Refer to video video on where to update the path location in the source code. </br>
 Demo: https://youtu.be/tdL4V4aNnwk
 

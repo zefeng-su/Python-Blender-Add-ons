@@ -5,6 +5,21 @@ This is an ongoing repository of evolving collection of Python Scripts for Blend
 Demo Playlist:</br>
 https://www.youtube.com/playlist?list=PLTJbcym3WZ5iG7vXH006Txw7Ds9FOK5fr
 
+## Installing the scripts as Add-Ons
+In Blender, go to Edit -> Preferences. 
+</br>
+1. Click on Add-ons at the side bar. </br>
+2. Click the Install button. </br>
+![01](https://github.com/zefeng-su/seif-13-project4/assets/126930729/f397da5e-592c-486c-8840-569df78af0b5)</br>
+</br>
+3. Browse to the location of the scripts. </br>
+4. Select the desired script and click Install Add-on. </br>
+![02](https://github.com/zefeng-su/seif-13-project4/assets/126930729/dca972a4-c074-4d1c-92c7-b3fd3f52da94)
+</br>
+5. Enable the Add-on. </br>
+6. Press N to show the side tabs on the right. The Add-on will appear as one of the tabs. </br>
+![03](https://github.com/zefeng-su/seif-13-project4/assets/126930729/2b611bc1-d07a-4e9f-881b-9dc9032f84e4)
+
 ## autofix_flipped_normals_addon.py
 Description:</br>
 Demo:</br>
